@@ -1,4 +1,4 @@
-import inquirer from "inquirer"
+import inquirer from "inquirer";
 // const fs = require("fs");
 // const generatePage = require("./src/page-template");
 
@@ -9,12 +9,25 @@ import inquirer from "inquirer"
 
 //   console.log("Portfolio complete! Check out index.html to see the output!");
 // });
-inquirer
-  .prompt([
+
+const promptUser = () => {
+  return inquirer.prompt([
     {
       type: "input",
       name: "name",
       message: "What is your name?",
     },
-  ])
-  .then((answers) => console.log(answers));
+    {
+      type: "input",
+      name: "github",
+      message: "Enter your GitHub Username",
+    },
+    {
+      type: "input",
+      name: "about",
+      message: "Provide some information about yourself:",
+    },
+  ]);
+};
+
+promptUser().then((answers) => console.log(answers));
