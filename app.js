@@ -1,14 +1,6 @@
 import inquirer from "inquirer";
-// const fs = require("fs");
-// const generatePage = require("./src/page-template");
-
-// const pageHTML = generatePage(name, github);
-
-// fs.writeFile("./index.html", generatePage(name, github), (err) => {
-//   if (err) throw new Error(err);
-
-//   console.log("Portfolio complete! Check out index.html to see the output!");
-// });
+import { writeFile, copyFile } from "./utils/generate-site.js";
+import generatePage from "./src/page-template.js";
 
 const promptUser = () => {
   return inquirer.prompt([
@@ -73,7 +65,7 @@ Add a New Project
     .prompt([
       {
         ype: "input",
-        name: "project name",
+        name: "name",
         message: "What is the name of your project? (Required)",
         validate: (projectNameInput) => {
           if (projectNameInput) {
@@ -150,5 +142,18 @@ Add a New Project
 promptUser()
   .then(promptProject)
   .then((portfolioData) => {
-    console.log(portfolioData);
+    return generatePage(portfolioData);
+  })
+  .then((pageHTML) => {
+    return writeFile(pageHTML);
+  })
+  .then((writeFileResponse) => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then((copyFileResponse) => {
+    console.log(copyFileResponse);
+  })
+  .catch((err) => {
+    console.log(err);
   });
